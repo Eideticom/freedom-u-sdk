@@ -16,3 +16,6 @@
 [submodule "riscv-pk"]
 	path = riscv-pk
 	url = https://github.com/lsgunth/riscv-pk.git
+[submodule "riscv-qemu"]
+	path = riscv-qemu
+	url = https://github.com/lsgunth/qemu.git
