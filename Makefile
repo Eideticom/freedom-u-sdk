@@ -152,8 +152,8 @@ linux-menuconfig: $(linux_wrkdir)/.config
 $(bbl): $(pk_srcdir) $(vmlinux_stripped)
 	rm -rf $(pk_wrkdir)
 	mkdir -p $(pk_wrkdir)
-	cd $(pk_wrkdir) && $</autoconf
-	$</configure \
+	cd $(pk_srcdir) && autoconf
+	cd $(pk_wrkdir) && $</configure \
 		--host=$(target) \
 		--with-payload=$(vmlinux_stripped) \
 		--enable-print-device-tree \
