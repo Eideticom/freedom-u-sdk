@@ -121,15 +121,15 @@ $(linux_wrkdir)/.config: $(linux_defconfig) $(linux_srcdir)
 	$(MAKE) -C $(linux_srcdir) O=$(linux_wrkdir) ARCH=riscv olddefconfig
 	echo $(ISA)
 	echo $(filter rv32%,$(ISA))
-ifeq (,$(filter rv%c,$(ISA)))
-	sed 's/^.*CONFIG_RISCV_ISA_C.*$$/CONFIG_RISCV_ISA_C=n/' -i $@
-	$(MAKE) -C $(linux_srcdir) O=$(linux_wrkdir) ARCH=riscv olddefconfig
-endif
-ifeq ($(ISA),$(filter rv32%,$(ISA)))
-	sed 's/^.*CONFIG_ARCH_RV32I.*$$/CONFIG_ARCH_RV32I=y/' -i $@
-	sed 's/^.*CONFIG_ARCH_RV64I.*$$/CONFIG_ARCH_RV64I=n/' -i $@
-	$(MAKE) -C $(linux_srcdir) O=$(linux_wrkdir) ARCH=riscv olddefconfig
-endif
+#ifeq (,$(filter rv%c,$(ISA)))
+#	sed 's/^.*CONFIG_RISCV_ISA_C.*$$/CONFIG_RISCV_ISA_C=n/' -i $@
+#	$(MAKE) -C $(linux_srcdir) O=$(linux_wrkdir) ARCH=riscv olddefconfig
+#endif
+#ifeq ($(ISA),$(filter rv32%,$(ISA)))
+#	sed 's/^.*CONFIG_ARCH_RV32I.*$$/CONFIG_ARCH_RV32I=y/' -i $@
+#	sed 's/^.*CONFIG_ARCH_RV64I.*$$/CONFIG_ARCH_RV64I=n/' -i $@
+#	$(MAKE) -C $(linux_srcdir) O=$(linux_wrkdir) ARCH=riscv olddefconfig
+#endif
 
 $(vmlinux): $(linux_srcdir) $(linux_wrkdir)/.config $(buildroot_initramfs_sysroot_stamp)
 	$(MAKE) -C $< O=$(linux_wrkdir) \
@@ -217,7 +217,7 @@ sim: $(spike) $(bbl)
 
 .PHONY: prep-qemu
 prep-qemu: $(qemu) $(bbl) $(rootfs)
-	echo "QEMU prepped"
+	echo "$(qemu) QEMU prepped"
 
 .PHONY: qemu
 qemu: $(qemu) $(bbl) $(rootfs)
