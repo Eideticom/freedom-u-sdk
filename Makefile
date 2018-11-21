@@ -155,6 +155,7 @@ $(bbl): $(pk_srcdir) $(vmlinux_stripped)
 	cd $(pk_wrkdir) && $</configure \
 		--host=$(target) \
 		--with-payload=$(vmlinux_stripped) \
+		--enable-print-device-tree \
 		--enable-logo \
 		--with-logo=$(abspath conf/sifive_logo.txt)
 	CFLAGS="-mabi=$(ABI) -march=$(ISA)" $(MAKE) -C $(pk_wrkdir)
