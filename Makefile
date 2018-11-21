@@ -213,10 +213,14 @@ clean:
 sim: $(spike) $(bbl)
 	$(spike) --isa=$(ISA) -p4 $(bbl)
 
+.PHONY: prep-qemu
+prep-qemu: $(qemu) $(bbl) $(rootfs)
+	echo "QEMU prepped"
+
 .PHONY: qemu
 qemu: $(qemu) $(bbl) $(rootfs)
 	$(qemu) -nographic -machine virt -kernel $(bbl) \
-		-drive file=$(rootfs),format=raw,id=hd0 -device virtio-blk-device,drive=hd0 \
+		--append "console=hvc0 ro root=/dev/vda" -drive file=$(rootfs),format=raw,id=hd0 -device virtio-blk-device,drive=hd0 \
 		-netdev user,id=net0 -device virtio-net-device,netdev=net0
 
 # Relevant partition type codes
