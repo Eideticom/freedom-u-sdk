@@ -13,9 +13,6 @@
 [submodule "linux-p2pmem"]
 	path = linux
 	url = https://github.com/sbates130272/linux-p2pmem.git
-[submodule "riscv-pk"]
-	path = riscv-pk
-	url = https://github.com/lsgunth/riscv-pk.git
 [submodule "riscv-qemu"]
 	path = riscv-qemu
 	url = https://github.com/lsgunth/qemu.git
