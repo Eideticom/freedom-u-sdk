@@ -133,12 +133,12 @@ $(linux_wrkdir)/.config: $(linux_defconfig) $(linux_srcdir)
 
 $(vmlinux): $(linux_srcdir) $(linux_wrkdir)/.config $(buildroot_initramfs_sysroot_stamp)
 	$(MAKE) -C $< O=$(linux_wrkdir) \
-		#CONFIG_INITRAMFS_SOURCE="$(confdir)/initramfs.txt $(buildroot_initramfs_sysroot)" \
-		#CONFIG_INITRAMFS_ROOT_UID=$(shell id -u) \
-		#CONFIG_INITRAMFS_ROOT_GID=$(shell id -g) \
 		CROSS_COMPILE=riscv64-unknown-linux-gnu- \
 		ARCH=riscv \
 		vmlinux
+		#CONFIG_INITRAMFS_SOURCE="$(confdir)/initramfs.txt $(buildroot_initramfs_sysroot)" \
+		#CONFIG_INITRAMFS_ROOT_UID=$(shell id -u) \
+		#CONFIG_INITRAMFS_ROOT_GID=$(shell id -g) \
 
 $(vmlinux_stripped): $(vmlinux)
 	$(target)-strip -o $@ $<
