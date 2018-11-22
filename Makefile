@@ -194,7 +194,8 @@ $(qemu): $(qemu_srcdir)
 	mkdir -p $(dir $@)
 	cd $(qemu_wrkdir) && $</configure \
 		--prefix=$(dir $(abspath $(dir $@))) \
-		--target-list=riscv64-softmmu
+		--static \
+		--target-list=riscv64-softmmu,riscv64-linux-user
 	$(MAKE) -C $(qemu_wrkdir)
 	$(MAKE) -C $(qemu_wrkdir) install
 	touch -c $@
