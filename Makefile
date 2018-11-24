@@ -231,6 +231,30 @@ BBL   = 2E54B353-1271-4842-806F-E436D6AF6985
 LINUX = 0FC63DAF-8483-4772-8E79-3D69D8477DE4
 FSBL  = 5B193300-FC78-40CD-8002-E86C45580B47
 
+debian_rootfs=debian-sid-riscv64-rootfs.img
+$(debian_rootfs):
+	@echo "$(debian_rootfs) is missing. Please create one a debian rootfs with this name and rerun."
+	false
+
+nvme%.qcow2:
+	qemu-img create -f qcow2 $@ 128M
+
+.PHONY: qemu-debian
+qemu-debian: $(qemu) $(bbl) $(debian_rootfs) nvme0.qcow2 nvme1.qcow2
+	$(qemu) -nographic \
+	      -machine virt \
+	      -smp 1 -m 8G \
+	      -append "console=hvc0 root=/dev/vda" \
+	      -kernel $(bbl) \
+	      -drive file=$(debian_rootfs),format=raw,id=hd0 \
+	      -device virtio-blk-device,drive=hd0 \
+	      -device virtio-net-device,netdev=net0 \
+	      -netdev user,id=net0 \
+	      -device nvme,drive=nvme0,serial=nvme0,cmb_size_mb=0 \
+	      -drive file=nvme0.qcow2,if=none,id=nvme0 \
+	      -device nvme,drive=nvme1,serial=nvme1,cmb_size_mb=64 \
+	      -drive file=nvme1.qcow2,if=none,id=nvme1
+
 .PHONY: format-boot-loader
 format-boot-loader: $(bin)
 	@test -b $(DISK) || (echo "$(DISK): is not a block device"; exit 1)
